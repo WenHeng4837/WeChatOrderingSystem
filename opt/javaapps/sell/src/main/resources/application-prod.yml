@@ -1,0 +1,88 @@
+#logging:
+#  pattern:
+#    console: "%d-%msg%n"
+#  file:
+#    path: /var/log/tomcat/sell.log
+#  level:
+#    root:
+#      com.imooc.LoggerTest: debug
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #sell
+    username: sell
+    #fb6wWwFSMc7TkiGW
+    password: fb6wWwFSMc7TkiGW
+    url: jdbc:mysql://123.60.24.43:3306/sell?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
+  #在springboot的配置文件:application.yml或application.properties中关于视图解析器的配置问题: 
+  #当pom文件下的spring-boot-starter-paren版本高时使用: 
+  #spring.mvc.view.prefix/spring.mvc.view.suffix 
+  #当pom文件下的spring-boot-starter-paren版本低时使用: 
+  #spring.view.prefix/spring.view.suffix
+  #因为我的是freemark,所以我改成了
+  #
+  #spring.freemarker.suffix=.ftl,
+  freemarker:
+    suffix: .ftl
+  #这个注解表示null就不用返回过去了,也就是说比如BuyerOrderController里那个订单列表那个函数返回给前端时用的OrderDTO但是不需要里面的orderDetailList
+  #所以不需要对里面的orderDetailList查询，自然orderDetailList就是null然后传递过去这样对前端不太友好所以加上就不用传过去了
+  jackson:
+    default-property-inclusion: non_null
+  redis:
+    #安装Redis的地方的ip
+    host: 123.60.24.43
+    #redis的端口
+    port: 6379
+    password: 123456
+    #密码 password: ,安装虚拟机的Redis那里没有设置密码，所以这里不用配
+
+server:
+  servlet:
+    context-path: /sell
+  #自定义异常处理页面，异常对象。异常信息
+  #server错误信息要包含异常对象和异常信息（SpringBoot2.0以上的版面需要在配置文件指定）：
+  error:
+    include-exception: true
+    include-message: always
+
+#自己的测试账号
+wechat:
+  #应用的唯一标识
+  mpAppId: wx71a78275b448c992
+  #私匙（相当于密码）
+  mpAppSecret: 05ef34ed8e300c413a9bb9d9dbb43789
+
+  #mpAppId: wxd898fcb01713c658
+  #这里的mchId、mchKey也是老师的
+  #商户号
+  mchId: 1483469312
+  #这里不对账号持有者改了，公匙（相当于账号）
+  mchKey: C5245D70627C1F8E9964D494B0735025
+  #微信支付账号证书路径，放在任意可读路径
+  keyPath: /key/h5.p12
+  #异步支付
+  #http://wlhsell.com/sell/pay/notify
+  #http://sell9.mynatapp.cc/sell/pay/notify
+  notifyUrl: http://wlhsell.com/sell/pay/notify
+ 
+  #之前用的微信的公众平台，这里是开放平台,开放平台对应的账号密码
+  openAppId: wx6ad144e54af67d87
+  openAppSecret: 91a2ff6d38a2bbccfb7e9f9079108e2e
+  # 推送消息模板ID，可以多配置几个 ,这里写的测试号的
+  templateId:
+    orderStatus: kzGP8ON3gAhEiozA77kWBOlPnqGhobHVuCu_VaMTR0Q
+projecturl:
+  #这里两个是开发平台和公众平台的授权域名
+  wechatMpAuthorize: http://wlhsell.com
+  wechatOpenAuthorize: http://wlhsell.com
+  #系统点餐地址
+  sell: http://wlhsell.com
+#配置控制台打出mapper的SQL语句日志
+logging:
+  level:
+    com.imooc.dataobject.mapper: trace
+# mybatis配置对应xml文件
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

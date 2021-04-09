@@ -1,0 +1,4 @@
+#默认选择Dev来启动
+spring:
+  profiles:
+    active:  dev
